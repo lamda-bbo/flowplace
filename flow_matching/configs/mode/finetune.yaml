@@ -1,0 +1,6 @@
+mode: finetune
+train_steps: 1000
+print_every: 100
+eval_every: 100
+batch_size: 32
+lr: 5e-4

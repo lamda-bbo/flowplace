@@ -1,0 +1,105 @@
+defaults:
+  - _self_
+  - model: att-gnn #graph-transformer
+  - model/conv-layer@model.backbone_params: gat
+  - model/size@model.backbone_params: large
+  - guidance@_here_: none
+  - legalizer@_here_: none
+  - sc_placer@_here_: sgd
+  - mode@_here_: train
+  - override hydra/hydra_logging: none
+  - override hydra/job_logging: stdout
+
+family: flow_matching
+task: mask.61
+test_task: iccad2015-s0
+num_classes: 10
+method: debug_att_gnn
+seed: 61
+log_dir: logs/debug
+mode: train # train | finetune | ddpo
+from_checkpoint: none
+param_sweep: False
+
+logger:
+  filter: '.*'
+  wandb: True
+  wandb_entity: <your_wandb_entity>
+  wandb_project: flow-matching-placement
+
+# model params
+implementation: custom
+model:
+  mask_key: is_ports
+  use_mask_as_input: True
+  max_diffusion_steps: 50
+  noise_schedule: linear
+  t_encoding_type: sinusoid
+  t_encoding_dim: 32
+  beta_1: 1e-4
+  beta_T: 0.02
+  self_cond_mode: model_output
+  discrete_prediction: x0 
+  input_cont_dim: 2 # for mixed diffusion model
+  input_disc_dim: 3
+  physics_prior_lr: 0.5
+  prior_noise_dist: normal # normal | uniform
+  use_hard_constraint_in_sampling: False 
+
+# clustering params
+cluster:
+  is_cluster: False
+  num_clusters: 512
+  verbose: False
+  cached_clusters: False # set to true if input dataset is already clustered
+
+# legalization
+legalization:
+  mode: none
+  softmax_min: 5.0
+  softmax_max: 50.0
+
+# training params
+batch_size: 64
+val_batch_size: 64
+train_steps: 3000000
+print_every: 1000
+eval_every: 1000
+eval_samples: 16
+test_every: 2000
+eval_policy: open_loop
+test_policy_algorithm: open_loop
+test_policy:
+  num_iterations: 5
+  num_clusters: 512
+  sc_placement_algorithm: none # specify using sc_placer
+  verbose: False
+  save_plots: False
+  save_videos: False
+display_examples: 1
+num_output_samples: 0
+test_num_output_samples: 18
+lr: 3e-4
+augment: False
+train_data_limit: none
+val_data_limit: none
+
+# eval params
+sc_halo: 1.0 # resize SC clusters
+macros_only: False
+cached_macros: False
+edge_dropout: 0
+
+# scatter plots
+scatter_plots:
+  - [lambda_2, legality_2]
+  - [lambda_2, hpwl_ratio]
+  - [hpwl_ratio, legality_2]
+  - [original_hpwl_normalized, hpwl_normalized]
+
+show_intermediate_every: 200
+
+hydra:
+  output_subdir: null
+  run:
+    dir: .

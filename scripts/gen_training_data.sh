@@ -1,0 +1,1 @@
+PYTHONPATH=. python data-gen/generate_parallel.py versions@_global_=mask num_workers=$(nproc)

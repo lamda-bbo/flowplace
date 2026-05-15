@@ -119,12 +119,12 @@ If our work is helpful to your research, please consider citing our paper:
 
 ## Citation
 ```
-@inproceedings{flowplace,
-    author = {Peng Xie, Ke Xue, Yunqi Shi, Ruo-Tong Chen, Chengrui Gao, Siyuan Xu, Chenjian Ding, Mingxuan Yuan, Chao Qian.},
-    title = {FlowPlace: Flow Matching for Chip Placement},
-    booktitle = {Proceedings of the 63rd Design Automation Conference},
-    year = {2026},
-    address={Long Beach, CA, USA}
+@inproceedings{xie2026flowplace,
+    author    = {Peng Xie and Ke Xue and Yunqi Shi and Ruo-Tong Chen and Chengrui Gao and Siyuan Xu and Chenjian Ding and Mingxuan Yuan and Chao Qian},
+    title     = {FlowPlace: Flow Matching for Chip Placement},
+    booktitle = {Proceedings of the 63rd Design Automation Conference (DAC)},
+    year      = {2026},
+    address   = {Long Beach, CA, USA},
 }
 ```
 
